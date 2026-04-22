@@ -146,12 +146,19 @@ struct FeatureModuleView: View {
     @EnvironmentObject var appState: AppState
     let version: Version
     
+    @State private var searchText: String = ""
+    
+    var filteredFeatures: [Feature] {
+        if searchText.isEmpty { return version.features }
+        return version.features.filter { $0.name.localizedCaseInsensitiveContains(searchText) }
+    }
+    
     var body: some View {
         VStack(spacing: 0) {
             // Tab Bar
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 4) {
-                    ForEach(version.features) { f in
+                    ForEach(filteredFeatures) { f in
                         Button(action: { 
                             withAnimation { 
                                 if viewModel.selectedFeature?.id == f.id { viewModel.selectedFeature = nil }
@@ -159,9 +166,9 @@ struct FeatureModuleView: View {
                             }
                         }) {
                             Text(f.name)
-                                .font(.system(.caption, design: .rounded)) // Smaller font for sleeker tabs
+                                .font(.system(.caption, design: .rounded))
                                 .fontWeight(viewModel.selectedFeature?.id == f.id ? .bold : .regular)
-                                .padding(.horizontal, 10).padding(.vertical, 4) // Compact vertical padding
+                                .padding(.horizontal, 10).padding(.vertical, 4)
                                 .background(viewModel.selectedFeature?.id == f.id ? Color.green.opacity(0.12) : Color.clear)
                                 .cornerRadius(4)
                         }
@@ -172,12 +179,11 @@ struct FeatureModuleView: View {
                         }
                     }
                     
-                    // Compact rectangular semi-transparent (+) button
                     Button(action: { viewModel.showingAddFeature = true }) {
                         ZStack {
                             RoundedRectangle(cornerRadius: 4)
                                 .fill(Color.green.opacity(0.08))
-                                .frame(width: 22, height: 22) // More compact size
+                                .frame(width: 22, height: 22)
                             Image(systemName: "plus")
                                 .font(.system(size: 10, weight: .bold))
                                 .foregroundColor(.green.opacity(0.6))
@@ -185,11 +191,10 @@ struct FeatureModuleView: View {
                     }
                     .buttonStyle(.plain)
                     .padding(.leading, 4)
-                    .help(appState.currentLanguage == .english ? "New Feature" : "Yeni Özellik")
                 }
                 .padding(.horizontal, 8)
             }
-            .frame(height: 36) // Reduced tab bar height
+            .frame(height: 36)
             .background(VisualEffectView(material: .titlebar, blendingMode: .withinWindow)).overlay(Divider(), alignment: .bottom)
             
             if let feature = viewModel.selectedFeature {
@@ -202,6 +207,30 @@ struct FeatureModuleView: View {
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity).background(Color(NSColor.textBackgroundColor))
             }
+            
+            // Search Bar at the bottom
+            HStack {
+                Image(systemName: "magnifyingglass")
+                    .font(.system(size: 12))
+                    .foregroundColor(.secondary)
+                
+                TextField(appState.currentLanguage == .english ? "Search features..." : "Özellikleri ara...", text: $searchText)
+                    .textFieldStyle(.plain)
+                    .font(.system(.caption, design: .rounded))
+                
+                if !searchText.isEmpty {
+                    Button(action: { searchText = "" }) {
+                        Image(systemName: "xmark.circle.fill")
+                            .font(.system(size: 12))
+                            .foregroundColor(.secondary)
+                    }
+                    .buttonStyle(.plain)
+                }
+            }
+            .padding(.horizontal, 10)
+            .padding(.vertical, 6)
+            .background(Color(NSColor.windowBackgroundColor).opacity(0.5))
+            .overlay(Divider(), alignment: .top)
         }
     }
 }
@@ -239,6 +268,12 @@ struct SidebarView: View {
                 }
             }
             .onTapGesture { viewModel.clearAllSelections() }
+            
+            // Subtle credit footer
+            Text("Arda Yiğit - Hazani")
+                .font(.system(size: 9, weight: .medium, design: .rounded))
+                .foregroundColor(.secondary.opacity(0.3))
+                .padding(.bottom, 8)
         }
         .navigationTitle("")
     }
@@ -295,13 +330,10 @@ struct FeatureDetailView: View {
     @State private var content: String = ""
     var body: some View {
         TextEditor(text: $content)
-            .font(.system(.body)) // Back to MacBook's native system font
-            .scrollContentBackground(.hidden)
-            .padding()
+            .font(.system(.body))
+            .scrollContentBackground(.hidden).padding()
             .background(Color(NSColor.textBackgroundColor))
-            .onChange(of: content) { _, newValue in 
-                LocalFileManager.shared.saveFeatureContent(feature: feature, content: newValue) 
-            }
+            .onChange(of: content) { _, newValue in LocalFileManager.shared.saveFeatureContent(feature: feature, content: newValue) }
             .onAppear { content = feature.content }
             .onChange(of: feature) { _, newFeature in content = newFeature.content }
             .navigationTitle(feature.name)
