@@ -6,7 +6,7 @@ Project Notebook is a sleek, premium, and fully native macOS application built w
   <img src="https://img.shields.io/badge/Platform-macOS-blue?style=flat-square&logo=apple" alt="Platform macOS">
   <img src="https://img.shields.io/badge/Language-Swift-orange?style=flat-square&logo=swift" alt="Language Swift">
   <img src="https://img.shields.io/badge/UI-SwiftUI-63E6BE?style=flat-square&logo=swift" alt="UI SwiftUI">
-  <img src="https://img.shields.io/badge/License-MIT-green?style=flat-square" alt="License MIT">
+  <img src="https://img.shields.io/badge/License-GPL_v3.0-blue?style=flat-square" alt="License GPL v3.0">
 </p>
 
 ---
@@ -14,7 +14,7 @@ Project Notebook is a sleek, premium, and fully native macOS application built w
 ## ✨ Features
 
 - **🏠 Multi-Level Organization:** Manage Projects → Versions → Features (.txt files) in a clean, hierarchical structure.
-- **🎨 Modern macOS Design:** A pürüzsüz (smooth) and native interface with auto-adaptive Dark and Light modes.
+- **🎨 Modern macOS Design:** A smooth and native interface with auto-adaptive Dark and Light modes.
 - **⚡ VS Code-Inspired UI:** Productivity-first column layout with a dynamic tab bar for feature switching.
 - **📁 File-Based Persistence:** No heavy databases. Everything is stored directly in your local file system for privacy and portability.
 - **🌐 Multi-Language Support:** Seamlessly switch between **English** and **Turkish** with a stylish UI toggle.
@@ -50,7 +50,7 @@ Project Notebook is a sleek, premium, and fully native macOS application built w
 
 ## 📄 License
 
-Distributed under the MIT License. See `LICENSE` for more information.
+Distributed under the GPL v3.0 License. See `LICENSE` for more information.
 
 ---
 
