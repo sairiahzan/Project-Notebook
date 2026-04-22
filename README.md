@@ -31,16 +31,6 @@ Project Notebook is a sleek, premium, and fully native macOS application built w
 
 ---
 
-## 🚀 Installation
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/sairiahzan/Project-Notebook.git
-   ```
-2. Open `Project Notebook.xcodeproj` in **Xcode**.
-3. Build and Run (**⌘ + R**).
-
----
 
 ## 📸 Screenshots
 
