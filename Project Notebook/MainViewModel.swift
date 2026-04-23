@@ -114,4 +114,21 @@ final class MainViewModel: ObservableObject {
             }
         }
     }
+    
+    func updateFeatureContent(_ feature: Feature, content: String) {
+        guard let pIndex = projects.firstIndex(where: { $0.id == selectedProject?.id }),
+              let vIndex = projects[pIndex].versions.firstIndex(where: { $0.id == selectedVersion?.id }),
+              let fIndex = projects[pIndex].versions[vIndex].features.firstIndex(where: { $0.id == feature.id }) else {
+            return
+        }
+        
+        projects[pIndex].versions[vIndex].features[fIndex].content = content
+        
+        if selectedFeature?.id == feature.id {
+            selectedFeature = projects[pIndex].versions[vIndex].features[fIndex]
+        }
+        
+        LocalFileManager.shared.saveFeatureContent(feature: feature, content: content)
+        objectWillChange.send()
+    }
 }

@@ -333,7 +333,7 @@ struct FeatureDetailView: View {
             .font(.system(.body))
             .scrollContentBackground(.hidden).padding()
             .background(Color(NSColor.textBackgroundColor))
-            .onChange(of: content) { _, newValue in LocalFileManager.shared.saveFeatureContent(feature: feature, content: newValue) }
+            .onChange(of: content) { _, newValue in viewModel.updateFeatureContent(feature, content: newValue) }
             .onAppear { content = feature.content }
             .onChange(of: feature) { _, newFeature in content = newFeature.content }
             .navigationTitle(feature.name)

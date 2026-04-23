@@ -45,11 +45,14 @@ final class LocalFileManager {
         let fileName = name.lowercased().hasSuffix(".txt") ? name : "\(name).txt"
         let fileURL = version.url.appendingPathComponent(fileName)
         
+        var content = ""
         if !FileManager.default.fileExists(atPath: fileURL.path) {
             try? "".write(to: fileURL, atomically: true, encoding: .utf8)
+        } else {
+            content = (try? String(contentsOf: fileURL, encoding: .utf8)) ?? ""
         }
         
-        return Feature(name: name, url: fileURL)
+        return Feature(name: name, url: fileURL, content: content)
     }
     
     func saveFeatureContent(feature: Feature, content: String) {
